@@ -115,5 +115,29 @@ pub fn edit_process(tasks: &mut HashMap<i32, TaskStruct>) {
             println!("une erreur est survenu");
         }
     }
+}
 
+
+pub fn delete_task_process(tasks: &mut HashMap<i32, TaskStruct>){
+    let mut index: String = String::new();
+    println!("Numéro de la tâche a supprimer :");
+    std::io::stdin().read_line(&mut index).expect("Erreur lors de la récupération !");
+
+    match index.trim().parse::<i32>() {
+        Ok(num) => {
+            delete_task(tasks, num);
+        },
+        Err(_) => {
+            println!("Nombre invalide !");
+        }
+    }
+}
+
+
+fn delete_task(tasks: &mut HashMap<i32, TaskStruct>, id: i32){
+    if tasks.remove(&id).is_some() {
+        println!("Tâche supprimé !");
+    }else{
+        println!("Tâche inexistante !");
+    }
 }

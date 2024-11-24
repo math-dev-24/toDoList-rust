@@ -9,7 +9,7 @@ fn main() {
     let mut tasks: HashMap<i32, TaskStruct> = HashMap::new();
     let mut next_task_id: i32 = 1;
 
-    let choice = ["add task", "View all tasks", "Update task", "done task", "Exit"];
+    let choice = ["add task", "View all tasks", "Update task", "done task","Delete task", "Exit"];
     let max: usize = choice.len();
 
     loop {
@@ -40,7 +40,8 @@ fn main() {
             2 => utils::actions::print_all_task(&mut tasks),
             3 => utils::actions::edit_process(&mut tasks),
             4 => utils::actions::mark_complete_process(&mut tasks),
-            5 => {
+            5 => utils::actions::delete_task_process(&mut tasks),
+            6 => {
                 println!("A bientôt !!!");
                 break;
             },
