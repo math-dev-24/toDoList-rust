@@ -1,28 +1,31 @@
-mod task_struct;
-use crate::task_struct::Task;
+use std::collections::HashMap;
+
 mod utils;
+use utils::types::TaskStruct;
 
 fn main() {
     println!("ToDoList");
 
-    let mut tasks: Vec<Task> = Vec::new();
-    let max: u8 = 4;
+    let mut tasks: HashMap<i32, TaskStruct> = HashMap::new();
+    let mut next_task_id: i32 = 1;
+
+    let choice = ["add task", "View all tasks", "Update task", "done task", "Exit"];
+    let max: usize = choice.len();
 
     loop {
-        // listing action
-        println!("1. Add task");
-        println!("2. View all tasks");
-        println!("3. Update task");
-        println!("4. Exit");
-        println!("Enter your choice: ");
+        for (index, value) in choice.iter().enumerate(){
+            println!("{}. {}", index +1 , value);
+        }
         
         // choice
-        let choice: u8 = loop {
+        let choice: usize = loop {
             let mut choice_mode: String = String::new();
             std::io::stdin().read_line(&mut choice_mode).expect("Erreur lors de la lecture");
-            let input = choice_mode.trim().parse::<u8>();
+
+            let input = choice_mode.trim().parse::<usize>();
+
             match input {
-                Ok(num) if num > 0 && num <= max => {
+                Ok(num ) if num > 0 && num <= max => {
                     break num;
                 }
                 _ => {
@@ -33,11 +36,12 @@ fn main() {
 
         // match action
         match choice {
-            1 => utils::add_task(&mut tasks),
-            2 => utils::print_all_task(&mut tasks),
-            3 => utils::edit_task(&mut tasks),
-            4 => {
-                println!("A bientôt");
+            1 => utils::actions::add_task_process(&mut tasks, &mut next_task_id),
+            2 => utils::actions::print_all_task(&mut tasks),
+            3 => utils::actions::edit_process(&mut tasks),
+            4 => utils::actions::mark_complete_process(&mut tasks),
+            5 => {
+                println!("A bientôt !!!");
                 break;
             },
             _ => println!("Aucun choix valide !")
